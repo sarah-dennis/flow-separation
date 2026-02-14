@@ -5,7 +5,6 @@ Created on Thu Oct 24 13:23:27 2024
 @author: sarah
 """
 
-
 import reyn_boundary as bc
 import reyn_examples as examples
 import reyn_solvers as solvers
@@ -15,37 +14,37 @@ import reyn_solvers as solvers
 plots_on = True
 uv_on = False          # plot u(x,y) & v(x,y) & |(u,v)|
 inc_on = False         # plot ux + vy =? 0
-zoom_on =False         # plot a zoomed-in window, set location in reyn_solution.py
+zoom_on = False        # plot a zoomed-in window, set location in graphics.py
 
 #------------------------------------------------------------------------------
 ## Piecewise-linear examples 
 ##       (analytic or finite difference solution)
 #------------------------------------------------------------------------------
 
-# Example = examples.BFS
-# H=1 
-# h=2
-# l=8
-# l_out=8
-# args =  [h, H, l, l_out]
+Example = examples.BFS
+H=1 
+h=2
+l=8
+l_out=8
+args =  [h, H, l, l_out]
 
 
-Example = examples.BFS_pwl
-H = 2
-h=1
-delta = 1
-L=16
-args = [H,h,L,delta]
+# Example = examples.BFS_pwl
+# h_in = 2
+# h_out=1
+# delta = 1
+# L=16
+# args = [h_in,h_out,L,delta]
 
 
 # Example = examples.BFS_wedge
-# h = 1
-# H = 2
-# l = 3
-# L = 3
-# xr = 0.5
-# yr = 0.5
-# args = [H, h, l, L, xr, yr]
+# h_in = 2
+# h_out = 1
+# l_in = 3
+# l_out = 3
+# xw = 0.5
+# yw = 0.5
+# args = [h_in, h_out, l_in, l_out, xw, yw]
 
 
 # Example = examples.TriCavity
