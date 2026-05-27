@@ -22,10 +22,10 @@ d=1
 # y_start = H-leny
 
 # zoom for slope BFS corner ((change y_start to max h - leny))
-lenx = .5
-leny = .5
-x_start = 8-3*d/4
-y_start = H-leny
+# lenx = .5
+# leny = .5
+# x_start = 8-3*d/4
+# y_start = H-leny
 
 
 # zoom for BFS step tip (8,1)
@@ -35,16 +35,16 @@ y_start = H-leny
 # y_start = 1-leny/2
 
 # # zoom to trim pipe length ((change leny to max h))
-# lenx = 4
-# leny = H
-# x_start = 6
-# y_start = 0
+lenx = 4
+leny = H
+x_start = 6
+y_start = 0
 
 # # zoom to triangle tip ((change leny to max h))
-lenx = 1/4
-leny = 1/4
-x_start = 1 - lenx/2
-y_start = H-leny
+# lenx = 1/4
+# leny = 1/4
+# x_start = 1 - lenx/2
+# y_start = H-leny
 
 
 x_stop= x_start + lenx
@@ -53,13 +53,13 @@ y_stop = y_start + leny
 #---------LEGEND---------------------------------------------------------------
 
 vel_max = 5
-p_min= 0
-p_max = 120
+p_min= 60
+p_max = 110
 
 # colour_bar_scale=0.015 # for very long figures, H=1.25, L=4
-# colour_bar_scale=0.024 # for long figures like H=2, L=4
+colour_bar_scale=0.024 # for long figures like H=2, L=4
 # colour_bar_scale=0.05 # for almost square figures like H=2.75, L=4
-colour_bar_scale=0.1 # for tall figures like H=4, L=2
+# colour_bar_scale=0.1 # for tall figures like H=4, L=2
 
 
 colour_bar_pad = 0.02
