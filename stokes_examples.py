@@ -37,17 +37,20 @@ class BFS_wedge(PWLinear):
         
 class BFS_pwl(PWLinear):
     def __init__ (self, args, U, Q, Re, N):
-        H, h, L, delta = args
-        
+        # H, h, L, delta = args
+        h_in, h_out, L, delta = args
         x0 = 0
         xf = L
         y0 = 0
-        yf = H
+        yf = max(h_in,h_out)#H
         
-        x_peaks = [x0, (L-delta)/2, L/2, (L+delta)/2, xf]
+        # x_peaks = [x0, (L-delta)/2, L/2, (L+delta)/2, xf]
+        x_peaks = [x0, (L-delta)/2, (L+delta)/2, xf]
         
-        y_peaks=[[0,H],[H,H],[h + (H-h)/2, h + (H-h)/2], [h,h],[h,0]]   
-        namestr= f'pwlBFS_H{H}h{h}L{L}d{delta}_U{U}_Q{Q}_Re{Re}'
+        # y_peaks=[[0,H],[H,H],[h + (H-h)/2, h + (H-h)/2], [h,h],[h,0]]   
+        y_peaks=[[0,h_in],[h_in,h_in],[h_out,h_out],[h_out,0]]   
+        
+        namestr= f'pwlBFS_hin{h_in}hout{h_out}L{L}d{delta}_U{U}_Q{Q}_Re{Re}'
         super().__init__(x0, xf, y0, yf, N, U, Q, Re,namestr, x_peaks, y_peaks)
      
         
@@ -94,7 +97,7 @@ class TriSlider(PWLinear):
     
         
         y_peaks=[[0,Hin],[Hin,Hin],[H,H],[Hout,Hout], [Hout, 0]]
-        namestr = f"TriCavity_Hin{Hin}H{H}Hout{Hout}La{La}Lb{Lb}Lin{Lin}Lout{Lout}_Re{Re}_Q{Q}_U{U}"
+        namestr = f"TriSlider_hin{Hin}h{H}hout{Hout}La{La}Lb{Lb}Lin{Lin}Lout{Lout}_Re{Re}_Q{Q}_U{U}"
         super().__init__(x0, xf, y0, yf, N, U, Q, Re,namestr, x_peaks, y_peaks)
         
 
@@ -120,7 +123,7 @@ class Logistic(PWLinear):
         y_peaks = [[y_L, y_R] for y_L,y_R in np.stack((y_peaks_L,y_peaks_R), axis=1)] 
 
         
-        namestr= f'logistic_H{H}L{L}d{delta}_U{U}_Q{Q}_Re{Re}'
+        namestr= f'logistic_hin{H}hout{h}L{L}d{delta}_U{U}_Q{Q}_Re{Re}'
         super().__init__(x0, xf, y0, yf, N, U, Q, Re,namestr, x_peaks, y_peaks)   
 
     def h_fun(self, x):
