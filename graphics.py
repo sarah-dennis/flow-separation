@@ -15,6 +15,14 @@ H =2
 d=1
 
 #---------ZOOM PLOT---------------------------------------------------------------
+
+# zoom to trim pipe length ((change leny to max h))
+lenx = 4
+leny = H
+x_start = 6
+y_start = 0
+
+
 # zoom for BFS corner ((change y_start to max h - leny))
 # lenx = .5
 # leny = .5
@@ -27,18 +35,11 @@ d=1
 # x_start = 8-3*d/4
 # y_start = H-leny
 
-
 # zoom for BFS step tip (8,1)
 # lenx = 0.5
 # leny = 0.5
 # x_start = 8-lenx/2
 # y_start = 1-leny/2
-
-# # zoom to trim pipe length ((change leny to max h))
-lenx = 4
-leny = H
-x_start = 6
-y_start = 0
 
 # # zoom to triangle tip ((change leny to max h))
 # lenx = 1/4

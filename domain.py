@@ -28,7 +28,8 @@ class Domain:
         self.xs = np.linspace(x0, xf, self.Nx)
         self.ys = np.linspace(y0, yf, self.Ny)
         self.dirstr = dirstr
-        self.filestr= f"{dirstr}/{namestr}_N{N}"
+        self.namestr = namestr
+        self.filestr = f"{dirstr}/{namestr}_N{N}"
         
 
 #------------------------------------------------------------------------------

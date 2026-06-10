@@ -25,12 +25,12 @@ Re=0
 
 
 #------------------------------------------------------------------------------
-h_in = 2.75
-h_out = 1
-l_in = 8
-l_out=8
-args = [h_in, h_out, l_in, l_out]
-Example = examples.BFS
+# h_in = 1
+# h_out = 2.75
+# l_in = 8
+# l_out=8
+# args = [h_in, h_out, l_in, l_out]
+# Example = examples.BFS
 
 
 #------------------------------------------------------------------------------
@@ -47,13 +47,13 @@ Example = examples.BFS
 
 #------------------------------------------------------------------------------
 
-# H=2
-# h=1
-# L=16
-# delta=1
+hin=1
+hout=2
+L=16
+delta=1/8
 
-# args = [H, h, L, delta]
-# Example = examples.BFS_pwl
+args = [hin, hout, L, delta]
+Example = examples.BFS_pwl
 
 
 #------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ Example = examples.BFS
 #------------------------------------------------------------------------------
 solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=500000)                
 
-N=160
+N=80
 
 # solver.new_run(N) 
 solver.load_run(N)
