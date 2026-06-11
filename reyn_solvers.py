@@ -10,7 +10,7 @@ import reyn_boundary as bc
 import reyn_velocity as rv
 import reyn_pressure as rp
 from reyn_control import Reyn_Solution
-from reyn_heights import PWL_Height, make_PWL
+from reyn_heights import PWL_Height, PWC_Height, make_PWL
 
 
 class Reynolds_Solver: 
@@ -50,7 +50,7 @@ class Reynolds_Solver:
         if not (isinstance(self.BC, bc.Mixed)): #TODO
             raise TypeError('Only prescribed flux for pwl schur solver')
         
-        if not isinstance(height, PWL_Height): 
+        if not isinstance(height, PWL_Height) and not isinstance(height, PWC_Height): 
             height = make_PWL(height)
 
         t0 = time()
@@ -63,6 +63,4 @@ class Reynolds_Solver:
         
         solution = Reyn_Solution(height, self.BC, pressure, velocity, solver_title, t)
 
-        return solution
-        return pressure, velocity, tf-t0
-  
+        return solution  

@@ -11,7 +11,7 @@ from matplotlib import pyplot as pp
 from matplotlib import colors
 from matplotlib import patches
 
-H =2
+H =2.75
 d=1
 
 #---------ZOOM PLOT---------------------------------------------------------------
@@ -54,12 +54,12 @@ y_stop = y_start + leny
 #---------LEGEND---------------------------------------------------------------
 
 vel_max = 5
-p_min= 60
-p_max = 110
+p_min= 0
+p_max = 60
 
 # colour_bar_scale=0.015 # for very long figures, H=1.25, L=4
-colour_bar_scale=0.024 # for long figures like H=2, L=4
-# colour_bar_scale=0.05 # for almost square figures like H=2.75, L=4
+# colour_bar_scale=0.024 # for long figures like H=2, L=4
+colour_bar_scale=0.05 # for almost square figures like H=2.75, L=4
 # colour_bar_scale=0.1 # for tall figures like H=4, L=2
 
 
@@ -73,7 +73,7 @@ n_contours = 100#25
 contour_width = 0.25
 
 stream_width = 1
-stream_density=[2,1]
+stream_density=[H,1]
 line_width = 1.5
 
 linthresh = 1e-8

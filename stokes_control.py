@@ -151,7 +151,7 @@ class Stokes_Solver:
 #------------------------------------------------------------------------------
     def load_plot(self, N,zoom=False):
         ex = self.Example(self.args, self.U, self.Q, self.Re, N)
-        u, v, psi, past_iters = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
+        u, v, psi = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
 
     
     # Grid domain
@@ -196,10 +196,10 @@ class Stokes_Solver:
     
     #  Velocity plot: 
     
-        ax_labels = ['$|(u,v)|_2$','$x$', '$y$']
+        ax_labels = ['$||(u,v)||_2$','$x$', '$y$']
         
         title = 'Stokes\n' + ex.spacestr + dp_str
-        ax_labels = ['$|(u,v)|_2$','$x$', '$y$']
+        ax_labels = ['$||(u,v)||_2$','$x$', '$y$']
         
         u_2D = u.reshape((ex.Ny,ex.Nx))
 

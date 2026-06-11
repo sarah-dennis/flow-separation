@@ -86,6 +86,7 @@ class PWC_Height(Height):#(PWL_Height):
             h_peaks = np.append(h_peaks, h_peaks[-1])
             h_peaks = np.reshape(h_peaks, (N_regions+2,2))
             N_regions +=1 
+            
         self.N_regions = N_regions
         self.x_peaks=x_peaks
         self.h_peaks=h_peaks

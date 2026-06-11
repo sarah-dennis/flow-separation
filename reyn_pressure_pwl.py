@@ -6,7 +6,6 @@ Created on Tue Jul 30 15:17:44 2024
 """
 
 import numpy as np
-import time
         
 from scipy.sparse.linalg import LinearOperator 
 from scipy.sparse.linalg import gmres
@@ -50,6 +49,7 @@ def make_rhs(height, BC):
     N = height.N_regions
     hs = height.h_peaks
     slopes = height.slopes
+    print(N)
     widths = height.widths
     
     rhs = np.zeros(N+1)
@@ -91,7 +91,6 @@ def make_rhs(height, BC):
 
 #---------------------------------------------------------------------------------
 def gmres_solve(height, BC):
-    t0 = time.time()
     rhs = make_rhs(height, BC)
     linOp = pwlLinOp(height,BC)
     sol_coefs, exit_code = gmres(linOp, rhs, tol=1e-8)
