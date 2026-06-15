@@ -9,12 +9,12 @@ import stokes_control as control
 import stokes_examples as examples
 
 
-zoom_on= not False   #set zoom location in graphics.py
+zoom_on=  False   #set zoom location in graphics.py
 
 #------------------------------------------------------------------------------
 
-U=0
-Q=1
+U=1
+Q=0
 
 # U=1
 # Q=0
@@ -55,10 +55,10 @@ Example = examples.BFS
 
 
 #------------------------------------------------------------------------------
-# H = 4
-# L = 2 
-# args = [H, L]# tri slope = 2H/L
-# Example = examples.TriCavity
+H = 4
+L = 2 
+args = [H, L]# tri slope = 2H/L
+Example = examples.TriCavity
 
 
 #------------------------------------------------------------------------------
@@ -82,6 +82,7 @@ solver.load_plot(N, zoom=zoom_on)
 
 # ------------------------------------------------------------------------------
 # solver.compare(args, U, Q, Re, 20,[40,80],160)
+solver.compare(args, U, Q, Re, 10, [20,40,80,160],320)
 
 
 
