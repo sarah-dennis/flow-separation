@@ -22,10 +22,3 @@ class Fixed(BoundaryCondition):
         self.p0 = dP
         self.dP = dP
         super().__init__(U)
-
-
-
-#------------------------------------------------------------------------------
-# Boundary conditions on stream and velocity
-#------------------------------------------------------------------------------
-   

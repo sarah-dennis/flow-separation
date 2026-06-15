@@ -3,7 +3,6 @@
 """
 Created on Sat Nov 12 12:53:47 2022
 
-Graphics helpers
 @author: sarahdennis
 """
 import numpy as np
@@ -26,7 +25,7 @@ y_start = 0
 # zoom for BFS corner ((change y_start to max h - leny))
 # lenx = .5
 # leny = .5
-# x_start = 8-lenx 
+# x_start = 8
 # y_start = H-leny
 
 # zoom for slope BFS corner ((change y_start to max h - leny))
@@ -73,7 +72,7 @@ n_contours = 100#25
 contour_width = 0.25
 
 stream_width = 1
-stream_density=[H,1]
+stream_density=[3,1]
 line_width = 1.5
 
 linthresh = 1e-8
@@ -213,7 +212,7 @@ def plot_log_multi(fs, xs, title, f_labels, ax_labels, linthresh=linthresh, bigO
         ax.plot(xs, fs[i], label=f_labels[i], color=cs[i], linewidth=0.8, marker=markers[i], markevery=1)
     
     
-    # reference lines
+    # TODO: reference lines
     if bigO_on:
         O1 = 1
         O2 = 1
@@ -283,14 +282,16 @@ def plot_stream_heat(vx, vy, xs, ys, color_map, title, ax_labels, vmin=0, vmax=v
     pp.xlabel(ax_labels[1])
     pp.ylabel(ax_labels[2])
     
-    # pp.ylim(y_start, y_stop)
-    # pp.xlim(x_start, x_stop)
     
+    #TODO: setlims
+    pp.ylim(ys[0], ys[-1])
+    pp.xlim(xs[0], xs[-1])
+
     ax.set_aspect('equal')
 
     # ax.tick_params(which='minor', top=True, right=True)
     # ax.tick_params(which='major', top=True, right=True)
-    pp.minorticks_on()
+    # pp.minorticks_on()
     pp.show()
        
 #------------------------------------------------------------------------------       
@@ -321,9 +322,11 @@ def plot_contour_mesh(zs, xs, ys, title, labels, vmin=p_min, vmax=p_max, log_cma
     pp.xlabel(labels[1])
     pp.ylabel(labels[2])
 
-    # pp.ylim(y_start, y_stop)
-    # pp.xlim(x_start, x_stop)
-    pp.minorticks_on()
+    #TODO: set lims
+    pp.ylim(ys[0], ys[-1])
+    pp.xlim(xs[0], xs[-1])
+    
+    # pp.minorticks_on()
     ax = pp.gca()
     ax.set_aspect('equal')    
     # ax.set_ylim(y_lim)
@@ -332,25 +335,20 @@ def plot_contour_mesh(zs, xs, ys, title, labels, vmin=p_min, vmax=p_max, log_cma
 
 #------------------------------------------------------------------------------------
 def grid_zoom_2D(grid, ex):
+
     i_start = int((x_start - ex.x0)/ex.dx)
-    i_stop = int((x_stop - ex.x0)/ex.dx)
+    i_stop = int(1+(x_stop - ex.x0)/ex.dx)
     j_start = int((y_start - ex.y0)/ex.dy)
-    j_stop = int((y_stop - ex.y0)/ex.dy)
-    i_max = int((ex.xf - ex.x0)/ex.dx)
-    j_max = int((ex.yf - ex.y0)/ex.dy)
-    if i_start < 0 or j_start < 0 or i_stop > i_max or j_stop > j_max or i_start > i_stop or j_start > j_stop:
-        raise Exception('graphics zoom window out of bounds')
+    j_stop = int(1 +(y_stop - ex.y0)/ex.dy)
+   
     return grid[j_start:j_stop,i_start:i_stop]
 
 def grid_zoom_1D(grid_x, grid_y, ex):
-    
+
     i_start = int((x_start - ex.x0)/ex.dx)
-    i_stop = int((x_stop - ex.x0)/ex.dx)
+    i_stop = int(1+(x_stop - ex.x0)/ex.dx)
     j_start = int((y_start - ex.y0)/ex.dy)
-    j_stop = int((y_stop - ex.y0)/ex.dy)
-    i_max = int((ex.xf - ex.x0)/ex.dx)
-    j_max = int((ex.yf - ex.y0)/ex.dy)
-    if i_start < 0 or j_start < 0 or i_stop > i_max or j_stop > j_max or i_start > i_stop or j_start > j_stop:
-        raise Exception('graphics zoom window out of bounds')
+    j_stop = int(1+(y_stop - ex.y0)/ex.dy)
+
     return grid_x[i_start:i_stop], grid_y[j_start:j_stop]
         

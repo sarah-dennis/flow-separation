@@ -29,8 +29,8 @@ class Stokes_Solver:
         
         # iterative solution args
         self.max_iters = max_iters
-        self.write_mod = 500
-        self.error_mod = 500
+        self.write_mod = 100
+        self.error_mod = self.write_mod 
         self.err_tol = 1e-8
 
         
@@ -122,17 +122,9 @@ class Stokes_Solver:
         u = u.reshape((ex.Ny,ex.Nx))
         v = v.reshape((ex.Ny,ex.Nx))
         
-        return p, u, v, dp
+        return psi, u, v, p, dp
         
 #------------------------------------------------------------------------------    
-    def get_dP(self,N):
-        ex = self.Example(self.args, self.U, self.Q, self.Re, N)
-        u, v, psi = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
-        p = pressure.pressure(ex, u, v)
-        dp = pressure.get_dp(ex, p) 
-        return dp
-    
-    
     
 #------------------------------------------------------------------------------
 # Error

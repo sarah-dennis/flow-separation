@@ -14,7 +14,7 @@ import readwrite as rw
 
 def get_tri_attachments(ex, H, L):
        
-    u, v, psi, past_iters = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
+    u, v, psi = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
     xrs=[]
     for i in range(ex.Nx):
         if i < ex.Nx/2 - 1:

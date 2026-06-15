@@ -21,12 +21,12 @@ zoom_on = not False        # plot a zoomed-in window, set location in graphics.p
 ##       (analytic or finite difference solution)
 #------------------------------------------------------------------------------
 
-Example = examples.BFS
-H=1
-h=2.75 
-l=8
-l_out=8
-args =  [H, h, l, l_out]
+# Example = examples.BFS
+# h_in=2
+# h_out=1
+# l_in=8
+# l_out=8
+# args =  [h_in, h_out, l_in, l_out]
 
 
 # Example = examples.BFS_pwl
@@ -37,18 +37,18 @@ args =  [H, h, l, l_out]
 # args = [h_in,h_out,L,delta]
 
 
-# Example = examples.BFS_wedge
-# h_in = 2
-# h_out = 1
-# l_in = 3
-# l_out = 3
-# xw = 0.5
-# yw = 0.5
-# args = [h_in, h_out, l_in, l_out, xw, yw]
+Example = examples.BFS_wedge
+h_in = 1
+h_out = 2
+l_in = 8
+l_out = 8
+xw = 0.35
+yw = 0.4
+args = [h_in, h_out, l_in, l_out, xw, yw]
 
 
 # Example = examples.TriCavity
-# H=4 # apex height
+# H=4 
 # L=2
 # args = [H, L]
 
@@ -77,11 +77,11 @@ solver = solvers.Reynolds_Solver(Example, BC, args)
 
 
 N = 80
-# solution = solver.fd_solve(N)
+# solution = solver.fd_lu_solve(N)
 
 solution = solver.pwl_solve(N)
 
-
+print('solve time: %.2fs'%solution.time)
 if plots_on:
     solution.p_plot(zoom=zoom_on)
     solution.v_plot(zoom=zoom_on, uv=uv_on, inc=inc_on)

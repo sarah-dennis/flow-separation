@@ -49,16 +49,33 @@ class BFS_pwl(PWL_Height):
         super().__init__(x0, xf, N, N_regions, x_peaks, h_peaks, namestr)
 
 
+# class BFS_wedge(PWL_Height):
+#     def __init__(self, args, N):
+#         H, h, la, lb, xr, yr = args
+#         x0 = 0
+#         xf = la+lb
+#         N_regions = 3
+#         x_peaks = np.asarray([x0, la-xr, la, xf], float)
+#         h_peaks = np.asarray( [[0, H], [H, H], [H-yr, h], [h, 0]], float)
+#         namestr = ''#f'cBFS_H{int(H)}L{int(xf)}_xr{int(xr)}yr{int(yr)}'
+#         super().__init__(x0, xf, N, N_regions, x_peaks, h_peaks, namestr)
+        
+
 class BFS_wedge(PWL_Height):
     def __init__(self, args, N):
-        H, h, la, lb, xr, yr = args
+        ha, hb, la, lb, xr, yr = args
         x0 = 0
         xf = la+lb
         N_regions = 3
-        x_peaks = np.asarray([x0, la-xr, la, xf], float)
-        h_peaks = np.asarray( [[0, H], [H, H], [H-yr, h], [h, 0]], float)
+        if ha < hb:
+            x_peaks = np.asarray([x0, la, la+xr, xf], float)
+            h_peaks = np.asarray( [[0, ha], [ha, hb-yr], [hb, hb], [hb, 0]], float)
+        else:
+            x_peaks = np.asarray([x0, la-xr, la, xf], float)
+            h_peaks = np.asarray( [[0, ha], [ha, ha], [ha-yr, hb], [hb, 0]], float)
         namestr = ''#f'cBFS_H{int(H)}L{int(xf)}_xr{int(xr)}yr{int(yr)}'
         super().__init__(x0, xf, N, N_regions, x_peaks, h_peaks, namestr)
+        
 
 # -----------------------------------------------------------------------------------------------------------------------------------
 #   ______

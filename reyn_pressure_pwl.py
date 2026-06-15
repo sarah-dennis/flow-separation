@@ -7,12 +7,7 @@ Created on Tue Jul 30 15:17:44 2024
 
 import numpy as np
         
-from scipy.sparse.linalg import LinearOperator 
-from scipy.sparse.linalg import gmres
 import reyn_boundary as bc
-
-
-
 
 def make_ps(height, BC, cs):
 
@@ -88,72 +83,6 @@ def make_rhs(height, BC):
     
   
     return rhs
-
-#---------------------------------------------------------------------------------
-def gmres_solve(height, BC):
-    rhs = make_rhs(height, BC)
-    linOp = pwlLinOp(height,BC)
-    sol_coefs, exit_code = gmres(linOp, rhs, tol=1e-8)
-        
-    if exit_code != 0:
-        raise Exception('gmres did not converge')
-
-    ps_1D = make_ps(height, BC, sol_coefs)
-
-    # print('gmres total time: ', tF-t0)
-    return ps_1D
-
-class pwlLinOp(LinearOperator):
-    def __init__(self, height,BC):
-
-        self.N = height.N_regions
-        self.h_peaks = height.h_peaks
-        self.widths = height.widths
-        self.slopes = height.slopes
-        self.BC = BC
-        self.shape = (self.N+1,self.N+1)
-        self.dtype = np.dtype('f8')
-        self.mv = np.zeros(self.N+1)
-    
-    def _matvec(self, v):
-        hs = self.h_peaks
-        slopes = self.slopes
-        widths = self.widths
-        N = self.N
-        mv = np.zeros(N+1)
-        cq = v[0]
-        
-        
-        if isinstance(self.BC, bc.Fixed):
-            if slopes[0] != 0:
-                mv[0] = v[1] - cq/(2 * hs[0,1]**2 * slopes[0])
-            else:
-                mv[0] = v[1]
-                 
-        elif isinstance(self.BC, bc.Mixed):
-            mv[0] = cq
-            
-             
-        if slopes[N-1] != 0:
-            mv[N] = v[N] - cq/(2 * hs[N,0]**2 * slopes[N-1])
-        else:
-            mv[N] = v[N] + cq  * widths[N-1]/(hs[N,0]**3)
- 
- 
-        for i in range(1, N):
-            if slopes[i] != 0 and slopes[i-1] != 0:
-                mv[i] = -v[i] + v[i+1] - cq/2 * (1/(hs[i,1]**2 * slopes[i]) - 1/(hs[i,0]**2 * slopes[i-1]))
-            
-            elif slopes[i] != 0 and slopes[i-1] == 0:
-                mv[i] = -v[i] + v[i+1] - cq * (1/(2* hs[i,1]**2 * slopes[i]) + hs[i,0]**-3 * widths[i-1])
-
-            elif slopes[i] == 0 and slopes[i-1] != 0:
-                mv[i] = -v[i] + v[i+1] + cq * (1/(2*hs[i,0]**2 * slopes[i-1]))
-                
-            else:
-                mv[i] = -v[i] + v[i+1] - cq * hs[i,0]**-3 * widths[i-1]
-           
-        return mv
 
 #---------------------------------------------------------------------------------
 def schur_solve(height, BC):

@@ -21,14 +21,14 @@ class Reynolds_Solver:
         self.BC = BC        
         
 #----------------------------------------------------------------------------------
-    def fd_solve(self, N):
+    def fd_lu_solve(self, N):
         solver_title = "Reynolds"
         
         height = self.Example(self.args, N)
 
         t0 = time()
         height.hxs = dm.center_diff(height.hs, height.Nx, height.dx)
-        pressure = rp.FinDiff_ReynPressure(height, self.BC)
+        pressure = rp.FD_LU_ReynPressure(height, self.BC)
         tf = time()
             
         velocity = rv.Reyn_Velocity(height, self.BC, pressure)
@@ -50,11 +50,11 @@ class Reynolds_Solver:
         if not (isinstance(self.BC, bc.Mixed)): #TODO
             raise TypeError('Only prescribed flux for pwl schur solver')
         
-        if not isinstance(height, PWL_Height) and not isinstance(height, PWC_Height): 
+        if not isinstance(height, PWL_Height) and not isinstance(height, PWC_Height):  # PWC is a PWL
             height = make_PWL(height)
 
         t0 = time()
-        pressure = rp.Pwl_ReynPressure(height, self.BC)
+        pressure = rp.PwlSchur_ReynPressure(height, self.BC)
         tf = time()
         t = tf-t0
         height.hxs = dm.center_diff(height.hs, height.Nx, height.dx)

@@ -9,10 +9,13 @@ import numpy as np
 import reyn_boundary as bc
 
 
-def fd_solve(height, BC):
+def lu_solve(height, BC):
     rhs = make_rhs(height, BC)
+
     mat = make_mat(height, BC)
+
     ps_1D = np.linalg.solve(mat, rhs)
+
     return ps_1D
 
 # Reynolds rhs
@@ -55,7 +58,7 @@ def make_mat(height, BC):
         D[0,0] = 1
         D[0,1] = 0
         
-    elif isinstance(BC, bc.Mixed): 
+    else: # isinstance(BC, bc.Mixed): 
         D[0,0] = -3/(2*height.dx)
         D[0,1] = 4/(2*height.dx)
         D[0,2] = -1/(2*height.dx)

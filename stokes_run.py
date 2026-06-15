@@ -2,8 +2,6 @@
 """
 Created on Tue Oct  1 11:56:12 2024
 
-link to sd_run.sh
-
 @author: sarah
 """
 
@@ -26,7 +24,7 @@ Re=0
 
 #------------------------------------------------------------------------------
 h_in = 1
-h_out = 2.75
+h_out = 2.75 #2.75, 2, 1.25
 l_in = 8
 l_out=8
 args = [h_in, h_out, l_in, l_out]
@@ -34,13 +32,13 @@ Example = examples.BFS
 
 
 #------------------------------------------------------------------------------
-# h_in = 2
-# h_out = 1
+# h_in = 1
+# h_out = 2
 # l_in = 8
 # l_out=8
 
-# xr = 0.35
-# yr = 0.4
+# xr = 0.175 #  0.35, 0.2625, 0.175
+# yr = 0.2  #  0.4,  0.3,    0.2
 
 # args = [h_in, h_out, l_in, l_out, xr, yr]
 # Example = examples.BFS_wedge
@@ -64,9 +62,9 @@ Example = examples.BFS
 
 
 #------------------------------------------------------------------------------
-solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=500000)                
+solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=50000)                
 
-N=80
+N=160
 
 # solver.new_run(N) 
 # solver.load_run(N)

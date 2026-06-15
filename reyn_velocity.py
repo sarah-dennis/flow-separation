@@ -8,11 +8,6 @@ import numpy as np
 import domain as dm
 import reyn_boundary as bc
 
-import numpy as np
-
-import domain as dm
-
-
 class Velocity:
     def __init__(self, u, v):
 

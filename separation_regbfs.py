@@ -15,7 +15,7 @@ import readwrite as rw
 
 def get_bfsPWL_attachments(ex, delta):
        
-    u, v, psi, past_iters = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
+    u, v, psi = rw.read_stokes(ex.filestr+".csv", ex.Nx * ex.Ny)
     
     y_xr = ex.yf   # xr on y=h  
     j_xr =int(y_xr/ex.dy)-1

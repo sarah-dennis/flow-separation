@@ -111,7 +111,7 @@ for h in range(num_h):
 #------------------------------------------------------------------------------
         
         stokes_solver = stokes_control.Stokes_Solver(Stokes_Example, args, U, Q, Re)
-        stokes_ps, stokes_us, stokes_vs, stokes_dp = stokes_solver.load(N)
+        stokes_psi, stokes_us, stokes_vs, stokes_ps, stokes_dp = stokes_solver.load(N)
         stokes_ps = np.nan_to_num(stokes_ps)
         dPs[num_h + h, d] =stokes_dp
 

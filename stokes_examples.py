@@ -27,10 +27,19 @@ class BFS_wedge(PWLinear):
         x0 = 0
         xf = l_in+l_out
   
-        x_peaks = [0, l_in-xr, l_in, l_in+l_out]
+
         y0 = 0
         yf = max(h_in,h_out) 
-        y_peaks=[[0,h_in],[h_in, h_in],[h_in-yr,h_out],[h_out,0]]
+        
+        if h_in < h_out:
+            x_peaks = np.asarray([x0, l_in, l_in+xr, xf], float)
+            y_peaks = np.asarray( [[0, h_in], [h_in, h_out-yr], [h_out, h_out], [h_out, 0]], float)
+        else:
+            x_peaks = np.asarray([x0, l_in-xr, l_in, xf], float)
+            y_peaks = np.asarray( [[0, h_in], [h_in, h_in], [h_in-yr, h_out], [h_out, 0]], float)
+            
+        # x_peaks = [0, l_in-xr, l_in, l_in+l_out]
+        # y_peaks=[[0,h_in],[h_in, h_in],[h_in-yr,h_out],[h_out,0]]
         namestr= f'wedgeBFS_hin{h_in}hout{h_out}lin{l_in}lout{l_out}xr{xr}yr{yr}_U{U}_Q{Q}_Re{Re}'
         super().__init__(x0, xf, y0, yf, N, U, Q, Re,namestr, x_peaks, y_peaks)
         

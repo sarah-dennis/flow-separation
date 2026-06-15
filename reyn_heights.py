@@ -7,7 +7,7 @@ Created on Sun Jan 29 08:18:07 2023
 """
 import numpy as np
 from domain import Height
-# import graphics
+
 #------------------------------------------------------------------------------
 # PWL Height
 #------------------------------------------------------------------------------
@@ -86,7 +86,6 @@ class PWC_Height(Height):#(PWL_Height):
             h_peaks = np.append(h_peaks, h_peaks[-1])
             h_peaks = np.reshape(h_peaks, (N_regions+2,2))
             N_regions +=1 
-            
         self.N_regions = N_regions
         self.x_peaks=x_peaks
         self.h_peaks=h_peaks
@@ -115,5 +114,3 @@ class PWC_Height(Height):#(PWL_Height):
             widths[r] = xi - x_peaks[r]
             hs[i] = h_peaks[r,1]
         return  hs, widths, i_peaks
-
-    

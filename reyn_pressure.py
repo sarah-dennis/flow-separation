@@ -18,13 +18,12 @@ class Pressure:
         self.ps_2D = ps_2D 
     
     def get_dP(self, height):
-        if self.ps_2D is None:
-            dP =  self.ps_1D[0] - self.ps_1D[-1]
-
-        else:
-            ps_2D = np.nan_to_num(self.ps_2D)
-            dP = (sum(ps_2D[:,0])/height.hs[0] - sum(ps_2D[:,-1])/height.hs[-1])*height.dy
-        return dP
+        # dp_1D =  self.ps_1D[0] - self.ps_1D[-1]
+    
+        # dp = (sum(self.ps_2D[:,0]) - sum(self.ps_2D[:,-1]))*height.dy
+        dp = self.ps_1D[0]*height.hs[0] - self.ps_1D[-1]*height.hs[-1]
+        
+        return dp
 
 class Reyn_Pressure(Pressure):
     def __init__(self, height, ps_1D):
@@ -46,14 +45,16 @@ class Reyn_Pressure(Pressure):
                 
          return ps_2D     
                     
-class FinDiff_ReynPressure(Reyn_Pressure):
+                    
+class FD_LU_ReynPressure(Reyn_Pressure):
     def __init__(self, height, BC):
-        ps_1D = fd.fd_solve(height, BC)
-        
+       
+        ps_1D = fd.lu_solve(height, BC)
+       
+     
         super().__init__(height, ps_1D)
-
-
-class Pwl_ReynPressure(Reyn_Pressure):
+        
+class PwlSchur_ReynPressure(Reyn_Pressure):
     def __init__(self, height, BC):
             
         ps_1D = pwl.schur_solve(height, BC)
