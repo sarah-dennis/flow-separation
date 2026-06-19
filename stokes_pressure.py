@@ -28,33 +28,35 @@ def pressure(ex, u, v):
     shape = n*m
     p = np.zeros(shape)
     
+    #k = j*n + i
     
     p[2*n-1] = ex.p_ambient  # i=n-1, j=1
-    #k = j*n + i
-    #k = n + (n-1)
     
-    i=n-2 #j=1
+    #lowest interior row, countour to outlet to inlet
+    j=1 
+    i=n-2 
     while i >= 0:
-        k = n + i
+        k = j*n + i
         k_E = n + i+1
-        p[k] = p[k_E] - px[k]*dx
+        p[k] = p[k_E] - (px[k_E] + px[k])*dx/2
         i-=1
-     
-    i=n-2 #j=0
+    
+    #lower boundary, countour to outlet to inlet
+    j=0
+    i=n-2 
     while i >= 0:
         k = i
         k_N = n + i
-        p[k] = p[k_N] - py[k_N]*dy
+        p[k] = p[k_N] - (py[k_N]+py[k])*dy/2
         i-=1
-            
+    
+    #countour interor row 2 to upper boundary   
     for i in range(n):
         j = 2
         while j <=m-1 and ex.space[j,i] != -1:
             k = j*n + i
-            
             k_S = (j-1)*n + i
-            p[k] = p[k_S] + py[k_S]*dy
-          
+            p[k] = p[k_S] + (py[k_S]+py[k])*dy/2
             j+=1  
     
     return p

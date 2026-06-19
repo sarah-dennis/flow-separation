@@ -144,10 +144,10 @@ class PWLinear(Space):
 #------------------------------------------------------------------------------
 # Boundary interpolation
 #------------------------------------------------------------------------------
-    def interp(self, scale, v_opp, v_bdry=0):
-        v_nbr = v_bdry + (v_bdry - v_opp)*scale
-
-        return v_nbr
+    def interp(self, scale, v_int, v_bdry=0):
+        v_ext = v_bdry + (v_bdry - v_int)*scale
+        # print(v_ext, v_int, v_bdry)
+        return v_ext
 
     def scale_N(self, i,j): #N: (s=i, t=j+1)
         # x = self.xs[i]     #int
@@ -179,23 +179,48 @@ class PWLinear(Space):
         y = self.ys[j]
         h_l = self.hs[i][0]
         h_r = self.hs[i][1]
+
+        x_E = self.xs[i+1]
+        # y_E = y
+        h_E_l = self.hs[i+1][0]
+        G_E = (h_E_l - h_r)/(x_E - x)
+        x_bdry_E =  x + (y - h_l)/G_E
+        # y_bdry = y
         
         x_W = self.xs[i-1]
         # y_W = y
         
+        # l1 = np.sqrt((x_E - x_bdry)**2 + (y_E - y_bdry)**2)
+        l1 = np.abs(x_E-x_bdry_E)
+        # l2 = np.sqrt((x_W - x_bdry)**2 + (y_W - y_bdry)**2)
+        l2 = np.abs(x_W-x_bdry_E) 
+
+        scale = l1/l2     
+
+        return scale
+    
+    
+
+    def scale_E_Wbdry(self, i,j): #E: (s=i+1, t=j)
+        x = self.xs[i]
+        y = self.ys[j]
+        h_l = self.hs[i][0]
+        h_r = self.hs[i][1]
+        
         x_E = self.xs[i+1]
         # y_E = y
         h_E_l = self.hs[i+1][0]
-        
-        G = (h_E_l - h_r)/(x_E - x)
-        x_bdry =  x + (y - h_l)/G
+        G_E = (h_E_l - h_r)/(x_E - x)
+        x_bdry_E =  x + (y - h_l)/G_E
         # y_bdry = y
         
-        # l1 = np.sqrt((x_E - x_bdry)**2 + (y_E - y_bdry)**2)
-        l1 = np.abs(x_E-x_bdry)
-        # l2 = np.sqrt((x_W - x_bdry)**2 + (y_W - y_bdry)**2)
-        l2 = np.abs(x_W-x_bdry) 
 
+        # l1 = np.sqrt((x_E - x_bdry)**2 + (y_E - y_bdry)**2)
+        l1 = np.abs(x_E-x_bdry_E)
+        # l2 = np.sqrt((x_W - x_bdry)**2 + (y_W - y_bdry)**2)
+        l2 = np.abs(x-x_bdry_E) 
+        # print(l1/l2)
+        
         scale = l1/l2     
 
         return scale
@@ -206,20 +231,41 @@ class PWLinear(Space):
         h_l = self.hs[i][0]
         h_r = self.hs[i][1]
         
+        x_W = self.xs[i-1]
+        # y_W = y
+        h_W_r = self.hs[i-1][1]
+        G_W = (h_W_r - h_l)/(x_W - x)
+        x_bdry_W =  x + (y - h_r)/G_W
+        
         x_E = self.xs[i+1]
         # y_W = y
+
+        # l1 = np.sqrt((x_W - x_bdry)**2 + (y_W - y_bdry)**2)
+        l1 = np.abs(x_W-x_bdry_W)
+        # l2 = np.sqrt((x_E - x_bdry)**2 + (y_E - y_bdry)**2)
+        l2 = np.abs(x_E-x_bdry_W) 
+        
+        scale = l1/l2 
+
+        return scale
+    
+    def scale_W_Ebdry(self, i,j): #s=i-1, t=j
+        x = self.xs[i]
+        y = self.ys[j]
+        h_l = self.hs[i][0]
+        h_r = self.hs[i][1]
         
         x_W = self.xs[i-1]
         # y_W = y
         h_W_r = self.hs[i-1][1]
-        
-        G = (h_W_r - h_l)/(x_W - x)
-        x_bdry =  x + (y - h_r)/G
+        G_W = (h_W_r - h_l)/(x_W - x)
+        x_bdry_W =  x + (y - h_r)/G_W
 
         # l1 = np.sqrt((x_W - x_bdry)**2 + (y_W - y_bdry)**2)
-        l1 = np.abs(x_W-x_bdry)
+        l1 = np.abs(x_W-x_bdry_W)
         # l2 = np.sqrt((x_E - x_bdry)**2 + (y_E - y_bdry)**2)
-        l2 = np.abs(x_E-x_bdry) 
+        l2 = np.abs(x-x_bdry_W) 
+        # print(l1/ l2)
         
         scale = l1/l2 
 
@@ -236,14 +282,13 @@ class PWLinear(Space):
         x_E = self.xs[i+1]
         y_N = self.ys[j+1]
         h_E_l = self.hs[i+1][0]
+        G = (h_E_l - h_r)/(x_E - x)
+        x_bdry = x + (y - h_l)/(G-1)
+        y_bdry = y + x_bdry - x
         
         x_W = self.xs[i-1]
         y_S = self.ys[j-1]
         
-        G = (h_E_l - h_r)/(x_E - x)
-        x_bdry = x + (y - h_l)/(G-1)
-        y_bdry = y + x_bdry - x
-
         l1 = np.sqrt((x_E-x_bdry)**2 + (y_N-y_bdry)**2)
         l2 = np.sqrt((x_W-x_bdry)**2 + (y_S-y_bdry)**2)
 
@@ -251,6 +296,27 @@ class PWLinear(Space):
 
         return scale
         
+    def scale_NE_SWbdry(self, i,j): #s=i+1, t=j+1
+        x = self.xs[i]
+        y = self.ys[j]
+        h_r = self.hs[i][1]
+        h_l = self.hs[i][0]
+        
+        x_E = self.xs[i+1]
+        y_N = self.ys[j+1]
+        h_E_l = self.hs[i+1][0]
+        G = (h_E_l - h_r)/(x_E - x)
+        x_bdry = x + (y - h_l)/(G-1)
+        y_bdry = y + x_bdry - x
+        
+        l1 = np.sqrt((x_E-x_bdry)**2 + (y_N-y_bdry)**2)
+        l2 = np.sqrt((x-x_bdry)**2 + (y-y_bdry)**2)
+
+        scale = l1/l2 
+
+        return scale
+            
+
     def scale_SW(self, i,j): #SW: (i-1, j-1)
         x = self.xs[i]
         y = self.ys[j]
@@ -270,6 +336,28 @@ class PWLinear(Space):
 
         l1 = np.sqrt((x_W-x_bdry)**2 + (y_S-y_bdry)**2)
         l2 = np.sqrt((x_E-x_bdry)**2 + (y_N-y_bdry)**2)
+
+        scale = l1/l2 
+   
+        return scale
+    
+    
+    def scale_SW_NEbdry(self, i,j): #SW: (i-1, j-1)
+        x = self.xs[i]
+        y = self.ys[j]
+        h_r = self.hs[i][1]
+        h_l = self.hs[i][0]
+    
+        x_W = self.xs[i-1]
+        y_S = self.ys[j-1]
+        h_W_r = self.hs[i-1][1]
+        
+        G = (h_W_r - h_l)/(x_W - x)
+        x_bdry = x + (y - h_r)/(G-1)
+        y_bdry = y + x_bdry - x
+
+        l1 = np.sqrt((x_W-x_bdry)**2 + (y_S-y_bdry)**2)
+        l2 = np.sqrt((x-x_bdry)**2 + (y-y_bdry)**2)
 
         scale = l1/l2 
    
@@ -299,8 +387,28 @@ class PWLinear(Space):
         l2 = np.sqrt((x_E-x_bdry)**2 + (y_S-y_bdry)**2)
 
         scale = l1/l2   
-        # if scale > 1:
-        #     print('nw', scale)
+            
+        return scale
+    
+    
+    def scale_NW_SEbdry(self, i,j): #NW: (s=i-1, t=j+1)
+        x = self.xs[i]
+        y = self.ys[j]
+        h_r = self.hs[i][1]
+        h_l = self.hs[i][0]
+        
+        x_W = self.xs[i-1]
+        y_N = self.ys[j+1]
+        h_W_r = self.hs[i-1][1]
+        
+        G = (h_W_r - h_l)/(x_W - x)
+        x_bdry = x + (y - h_r)/(G+1)
+        y_bdry = y - x_bdry + x
+
+        l1 = np.sqrt((x_W-x_bdry)**2 + (y_N-y_bdry)**2)
+        l2 = np.sqrt((x-x_bdry)**2 + (y-y_bdry)**2)
+
+        scale = l1/l2   
             
         return scale
     
@@ -323,6 +431,28 @@ class PWLinear(Space):
 
         l1 = np.sqrt((x_E-x_bdry)**2 + (y_S-y_bdry)**2)
         l2 = np.sqrt((x_W-x_bdry)**2 + (y_N-y_bdry)**2)
+        
+
+        scale = l1/l2
+
+        return scale
+    
+    def scale_SE_NWbdry(self, i,j): #SE: (s=i+1, t=j-1)
+        x = self.xs[i]
+        y = self.ys[j]
+        h_r = self.hs[i][1]
+        h_l = self.hs[i][0]
+        
+        x_E = self.xs[i+1]
+        y_S = self.ys[j-1]
+        h_E_l = self.hs[i+1][0]
+        
+        G = (h_E_l - h_r)/(x_E - x)
+        x_bdry = x + (y - h_l)/(G+1)
+        y_bdry = y - x_bdry + x
+
+        l1 = np.sqrt((x_E-x_bdry)**2 + (y_S-y_bdry)**2)
+        l2 = np.sqrt((x-x_bdry)**2 + (y-y_bdry)**2)
         
 
         scale = l1/l2

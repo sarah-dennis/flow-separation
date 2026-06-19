@@ -65,7 +65,7 @@ num_tests=len(h_ins)
 test_args = [[h_in, h_out, l_in, l_out] for h_in in h_ins]
 
 exstr = 'BFS'
-label = '$\mathcal{H}=H_{in}/H_{out}$'
+label = '$\mathcal{H}$'
 
 #------------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ for args in test_args:
 # Reynolds 
 #------------------------------------------------------------------------------
     reyn_solver = reyn_solvers.Reynolds_Solver(Reyn_Example, BC, args)
-    reyn_solution = reyn_solver.fd_solve(N)
+    reyn_solution = reyn_solver.pwl_solve(N)
     reyn_dp=reyn_solution.dP
     reyn_ps, reyn_us, reyn_vs = np.nan_to_num(reyn_solution.pressure.ps_2D),reyn_solution.velocity.u,reyn_solution.velocity.v
     

@@ -82,6 +82,6 @@ for h in range(num_h):
 print(xrs)
 
 fun_labels = ['$\mathcal{H}=%.2f$'%h_in for h_in in h_ins]
-graphics.plot_2D_multi(xrs, deltas, 'Wedge Slider Points of Flow Separation $x_r$', fun_labels, ['$\delta$', 'length'], loc='upper')
+graphics.plot_2D_multi(xrs, deltas, 'Regularized BFS Points of Flow Separation', fun_labels, ['$\delta$', 'length'], loc='upper')
 
     

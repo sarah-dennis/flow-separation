@@ -44,7 +44,7 @@ def make_rhs(height, BC):
     N = height.N_regions
     hs = height.h_peaks
     slopes = height.slopes
-    print(N)
+
     widths = height.widths
     
     rhs = np.zeros(N+1)

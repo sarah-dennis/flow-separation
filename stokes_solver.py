@@ -138,12 +138,13 @@ def update_rhs(ex, u, v, psi): #
             rhs[k] = 0
         
         else: # interior
+        
+        
             # (u,v) at 9 point stencil
             u_k = u[k]
             v_k = v[k]
                    
             #possible exterior nbrs 
-            dpsi_bc = 0
             k_N = (j+1)*n + i
             k_E = j*n + i+1
             k_W = j*n + i-1 
@@ -153,7 +154,10 @@ def update_rhs(ex, u, v, psi): #
             k_SW = (j-1)*n + i-1
             k_SE = (j-1)*n + i+1
             
-            # South (i, j-1)
+            # psi boundary adjustment from LHS
+            dpsi_bc = 0
+            
+            # South (i, j-1) # always interior or boundary
             u_S = u[k_S]
             v_S = v[k_S]
 
@@ -169,19 +173,31 @@ def update_rhs(ex, u, v, psi): #
                 v_N = v[k_N]
             
             # East (i+1, j)                
-            if ex.space[j,i+1] == -1: #E:
-
+            if ex.space[j,i+1] == -1: #E exterior
+                # if ex.space[j,i-1]==-1: # E-opp exterior
+                #     scale_E = ex.scale_E_Wbdry(i,j)
+                #     dpsi_bc += -8 * ex.interp(scale_E, psi[k], v_bdry= ex.flux)
+                #     u_E = ex.interp(scale_E, u[k])
+                #     v_E = ex.interp(scale_E, v[k])
+                # else:
                 scale_E = ex.scale_E(i,j)
                 dpsi_bc += -8 * ex.interp(scale_E, psi[k_W], v_bdry= ex.flux)
                 u_E = ex.interp(scale_E, u[k_W])
                 v_E = ex.interp(scale_E, v[k_W])
+               
                 
-            else:
+            else: #E interior
                 u_E = u[k_E]
                 v_E = v[k_E]
         
             # West (i-1, j)          
             if ex.space[j,i-1] == -1: #W:
+                # if ex.space[j,i+1] == -1:
+                #     scale_W = ex.scale_W_Ebdry(i,j)
+                #     dpsi_bc += -8 * ex.interp(scale_W, psi[k], v_bdry= ex.flux)
+                #     u_W = ex.interp(scale_W, u[k])
+                #     v_W = ex.interp(scale_W, v[k])
+                # else:
                 scale_W = ex.scale_W(i,j)
                 dpsi_bc += -8 * ex.interp(scale_W, psi[k_E], v_bdry= ex.flux)
                 u_W = ex.interp(scale_W, u[k_E])
@@ -190,19 +206,35 @@ def update_rhs(ex, u, v, psi): #
                 u_W = u[k_W]
                 v_W = v[k_W]
 
-            if ex.space[j+1,i+1] == -1 : #NE:
+            if ex.space[j+1,i+1] == -1: #NE:
+                # if ex.space[j-1,i-1] == -1:
+                #     scale_NE = ex.scale_NE_SWbdry(i,j)
+                #     dpsi_bc += ex.interp(scale_NE, psi[k], v_bdry= ex.flux)
+                # else:
                 scale_NE = ex.scale_NE(i,j)
                 dpsi_bc += ex.interp(scale_NE, psi[k_SW], v_bdry= ex.flux)
 
             if ex.space[j+1,i-1] == -1: #NW:
+                # if ex.space[j-1,i+1] == -1:
+                #     scale_NW = ex.scale_NW_SEbdry(i,j)
+                #     dpsi_bc += ex.interp(scale_NW, psi[k], v_bdry= ex.flux)
+                # else:
                 scale_NW = ex.scale_NW(i,j)
                 dpsi_bc += ex.interp(scale_NW, psi[k_SE], v_bdry= ex.flux)
                                                      
             if ex.space[j-1,i+1] == -1: #SE:
+                # if ex.space[j+1,i-1] == -1:
+                #     scale_SE = ex.scale_SE_NWbdry(i,j)
+                #     dpsi_bc += ex.interp(scale_SE, psi[k], v_bdry= ex.flux)
+                # else:
                 scale_SE = ex.scale_SE(i,j)
                 dpsi_bc += ex.interp(scale_SE, psi[k_NW], v_bdry= ex.flux)
 
             if ex.space[j-1,i-1] == -1: #SW:
+                # if ex.space[j+1,i+1] == -1:
+                #     scale_SW = ex.scale_SW_NEbdry(i,j)
+                #     dpsi_bc += ex.interp(scale_SW, psi[k], v_bdry= ex.flux)
+                # else:
                 scale_SW = ex.scale_SW(i,j)
                 dpsi_bc += ex.interp(scale_SW, psi[k_NE], v_bdry= ex.flux)
 
@@ -247,7 +279,6 @@ def uv_approx(ex, u, v, psi):
             v[k] = 0 
                 
         elif i == n-1: #outlet: dx{u(dx)} = 0
-
             u[k] = u[j*n+i-1]
             v[k] = 0 
                     
@@ -268,7 +299,6 @@ def uv_approx(ex, u, v, psi):
             if j-1 == 0:  # y=0 boundary
                 u_S = ex.U
                 psi_S = 0
-                
             else:  # exterior 
                 u_S = u[k_S]
                 psi_S = psi[k_S]
@@ -277,12 +307,10 @@ def uv_approx(ex, u, v, psi):
             if ex.space[j+1,i] == 0: # h(x) boundary
                 u_N = 0
                 psi_N = ex.flux
-                
             elif ex.space[j+1,i] == -1: # exterior 
                 scale_N = ex.scale_N(i,j)
                 u_N = ex.interp(scale_N, u[k_S]) 
-                psi_N = ex.interp(scale_N, psi[k_S], v_bdry= ex.flux)
-                
+                psi_N = ex.interp(scale_N, psi[k_S], v_bdry= ex.flux) 
             else:
                 u_N = u[k_N]
                 psi_N = psi[k_N]
@@ -290,16 +318,16 @@ def uv_approx(ex, u, v, psi):
             # East (i+1, j)
             if i+1 == n-1 and ex.space[j,i+1] == 0: # outlet
                 v_E = 0
-
                 psi_E = psi[k] 
-                
-                
             elif ex.space[j,i+1] == 0: # y=h(x) boundary
                 v_E = 0
                 psi_E = ex.flux 
-                
             elif ex.space[j,i+1] == -1:  # exterior 
-
+                # if ex.space[j,i-1]==-1:
+                #     scale_E = ex.scale_E_Wbdry(i,j)
+                #     v_E = ex.interp(scale_E, v[k])
+                #     psi_E = ex.interp(scale_E, psi[k], v_bdry= ex.flux)
+                # else:
                 scale_E = ex.scale_E(i,j)
                 v_E = ex.interp(scale_E, v[k_W])
                 psi_E = ex.interp(scale_E, psi[k_W], v_bdry= ex.flux)
@@ -311,19 +339,21 @@ def uv_approx(ex, u, v, psi):
             if i-1 == 0 and ex.space[j,i-1] == 0:  # inlet
                 v_W = 0
                 psi_W = ex.streamInlet(j)
-                
             elif ex.space[j,i-1] == 0: # y=h(x) boundary
                 v_W = 0
                 psi_W = ex.flux 
-                
             elif ex.space[j,i-1] == -1:  # exterior 
+                # if ex.space[j,i+1] == -1:
+                #     scale_W = ex.scale_W_Ebdry(i,j)
+                #     v_W = ex.interp(scale_W, v[k])
+                #     psi_W = ex.interp(scale_W, psi[k], v_bdry= ex.flux)
+                # else:
                 scale_W = ex.scale_W(i,j)
                 v_W = ex.interp(scale_W, v[k_E])
                 psi_W = ex.interp(scale_W, psi[k_E], v_bdry= ex.flux)
             else:
                 v_W = v[k_W]
                 psi_W = psi[k_W]
-   
 
             
             u[k] = c2 * (psi_N - psi_S) - c3 * (u_N + u_S)

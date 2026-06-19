@@ -29,7 +29,7 @@ class Stokes_Solver:
         
         # iterative solution args
         self.max_iters = max_iters
-        self.write_mod = 100
+        self.write_mod = 500
         self.error_mod = self.write_mod 
         self.err_tol = 1e-8
 
@@ -42,7 +42,7 @@ class Stokes_Solver:
         u_init = np.zeros(ex.Nx * ex.Ny)
         v_init = np.zeros(ex.Nx * ex.Ny)
         psi_init = np.zeros(ex.Nx * ex.Ny)
-    
+        
         u, v, psi = run_spLU(ex, u_init, v_init, psi_init, self.max_iters, self.error_mod, self.write_mod, self.err_tol)
     
         rw.write_stokes(ex, u, v, psi)
@@ -129,14 +129,25 @@ class Stokes_Solver:
 #------------------------------------------------------------------------------
 # Error
 #------------------------------------------------------------------------------
-    def compare(self, args, U, Q, Re, N_min, Ns, N_max,p_err=False): # grid convergence (multiple grid sizes of same example)
-        
-        l1_errs, l2_errs, inf_errs, cnvg_rates, ex_min = cnvg.stokes_cnvg_self(self.Example, args, U, Q, Re, N_min, Ns, N_max,p_err)
-        title = "Iterative Grid Error in Stream $\psi$ at $N_{max}=%d$"%(N_max)
-        ax_labels = ["$N$", "$||\psi _{N^{*}} - \psi_{N}||_p$"]
+    def compare(self, args, U, Q, Re, N_min, Ns, N_max,p_err=False, uv_err=False): # grid convergence (multiple grid sizes of same example)
         leg_labels = ['$L^1$', '$L^2$','$L^\infty$']
+
+        stream_errs, p_errs, uv_errs = cnvg.stokes_cnvg_self(self.Example, args, U, Q, Re, N_min, Ns, N_max)
         
-        graphics.plot_log_multi([l1_errs, l2_errs, inf_errs], [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='lower' )
+        if p_errs:
+            title = "Iterative Grid Error in $p$ at $N_{max}=%d$"%(N_max)
+            ax_labels = ["$N$", "$||p _{N^{*}} - p_{N}||_{L^p}$"]
+            graphics.plot_log_multi(p_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='lower' )
+        
+        if uv_errs:
+            title = "Iterative Grid Error in $(u,v)$ at $N_{max}=%d$"%(N_max)
+            ax_labels = ["$N$", "$||(u,v)_{N^{*}} - (u,v)_{N}||_{L^p}$"]
+            graphics.plot_log_multi(uv_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='upper' )
+        
+       
+        title = "Iterative Grid Error in $\psi$ at $N_{max}=%d$"%(N_max)
+        ax_labels = ["$N$", "$||\psi _{N^{*}} - \psi_{N}||_{L^p}$"]
+        graphics.plot_log_multi(stream_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='upper' )
 
 #------------------------------------------------------------------------------
 # PLOTTING 

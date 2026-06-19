@@ -16,6 +16,7 @@ zoom_on=  False   #set zoom location in graphics.py
 U=1
 Q=0
 
+
 # U=1
 # Q=0
 
@@ -24,9 +25,9 @@ Re=0
 
 #------------------------------------------------------------------------------
 h_in = 1
-h_out = 2.75 #2.75, 2, 1.25
+h_out =2 #2.75, 2, 1.25
 l_in = 8
-l_out=8
+l_out = 8
 args = [h_in, h_out, l_in, l_out]
 Example = examples.BFS
 
@@ -45,44 +46,45 @@ Example = examples.BFS
 
 #------------------------------------------------------------------------------
 
-# hin=1
-# hout=2
-# L=16
-# delta=1/4
+hin=1
+hout=2
+L=16
+delta=1/3
 
-# args = [hin, hout, L, delta]
-# Example = examples.BFS_pwl
+args = [hin, hout, L, delta]
+Example = examples.BFS_pwl
 
 
 #------------------------------------------------------------------------------
-H = 4
-L = 2 
+H = 1
+L = 1
+
 args = [H, L]# tri slope = 2H/L
 Example = examples.TriCavity
 
 
 #------------------------------------------------------------------------------
-solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=50000)                
+solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=5000)                
 
-N=160
+N=320
 
 # solver.new_run(N) 
 # solver.load_run(N)
 
 # solver.load_scale(N,2*N) 
-# 
+solver.load_run(N)
 # solver.load_copy(N, new_Example, new_args)
 
-# solver.load_run_many(N, 2, 2)
+# solver.load_run_many(N, 2, 4)
 # 
 # solver.new_run_many(N, 2, 3)  
-# solver.load_run_new_many(N, 2,3)
+# solver.load_run_new_many(N, 2,4)
 
-solver.load_plot(N, zoom=zoom_on)
+# solver.load_plot(N, zoom=zoom_on)
 
 # ------------------------------------------------------------------------------
-# solver.compare(args, U, Q, Re, 20,[40,80],160)
-solver.compare(args, U, Q, Re, 10, [20,40,80,160],320)
+# solver.compare(args, U, Q, Re, 10,[20,40,80],160, p_err=True)
+# solver.compare(args, U, Q, Re, 20, [40,80,160],320, p_err= True, uv_err=True)
 
 
 

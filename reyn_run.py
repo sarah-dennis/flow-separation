@@ -22,29 +22,30 @@ zoom_on = not False        # plot a zoomed-in window, set location in graphics.p
 #------------------------------------------------------------------------------
 
 # Example = examples.BFS
-# h_in=2
-# h_out=1
+# h_in=1
+# h_out=2
 # l_in=8
 # l_out=8
 # args =  [h_in, h_out, l_in, l_out]
 
 
-# Example = examples.BFS_pwl
-# h_in = 2
-# h_out=1
-# delta = 1/8
-# L=16
-# args = [h_in,h_out,L,delta]
+# Example = examples.BFS_wedge
+# h_in = 1
+# h_out = 2
+# l_in = 8
+# l_out = 8
+# xw = 0.35
+# yw = 0.4
+# args = [h_in, h_out, l_in, l_out, xw, yw]
 
 
-Example = examples.BFS_wedge
+Example = examples.BFS_pwl
 h_in = 1
-h_out = 2
-l_in = 8
-l_out = 8
-xw = 0.35
-yw = 0.4
-args = [h_in, h_out, l_in, l_out, xw, yw]
+h_out=2
+delta = 1/4
+L=16
+args = [h_in,h_out,L,delta]
+
 
 
 # Example = examples.TriCavity
@@ -76,7 +77,7 @@ solver = solvers.Reynolds_Solver(Example, BC, args)
 # solution methods (plots  and returns pressure, velocity )
 
 
-N = 80
+N = 160
 # solution = solver.fd_lu_solve(N)
 
 solution = solver.pwl_solve(N)

@@ -10,19 +10,19 @@ from matplotlib import pyplot as pp
 from matplotlib import colors
 from matplotlib import patches
 
-H =2.75
+H =2
 d=1
 
 #---------ZOOM PLOT---------------------------------------------------------------
 
-# zoom to trim pipe length ((change leny to max h))
+# zoom to trim length ((change leny to max h))
 lenx = 4
 leny = H
 x_start = 6
 y_start = 0
 
 
-# zoom for BFS corner ((change y_start to max h - leny))
+# # zoom for BFS corner ((change y_start to max h - leny))
 # lenx = .5
 # leny = .5
 # x_start = 8
@@ -34,7 +34,7 @@ y_start = 0
 # x_start = 8-3*d/4
 # y_start = H-leny
 
-# zoom for BFS step tip (8,1)
+#zoom for BFS step tip (8,1)
 # lenx = 0.5
 # leny = 0.5
 # x_start = 8-lenx/2
@@ -54,11 +54,11 @@ y_stop = y_start + leny
 
 vel_max = 5
 p_min= 0
-p_max = 60
+p_max = 100
 
 # colour_bar_scale=0.015 # for very long figures, H=1.25, L=4
-# colour_bar_scale=0.024 # for long figures like H=2, L=4
-colour_bar_scale=0.05 # for almost square figures like H=2.75, L=4
+colour_bar_scale=0.024 # for long figures like H=2, L=4
+# colour_bar_scale=0.05 # for almost square figures like H=2.75, L=4
 # colour_bar_scale=0.1 # for tall figures like H=4, L=2
 
 
@@ -68,7 +68,7 @@ colour_bar_pad = 0.02
 
 dpi=1200
 
-n_contours = 100#25
+n_contours = 50#25
 contour_width = 0.25
 
 stream_width = 1
