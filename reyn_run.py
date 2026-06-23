@@ -14,7 +14,7 @@ import reyn_solvers as solvers
 plots_on = True
 uv_on = False          # plot u(x,y) & v(x,y) & |(u,v)|
 inc_on = False         # plot ux + vy =? 0
-zoom_on = not False        # plot a zoomed-in window, set location in graphics.py
+zoom_on = False        # plot a zoomed-in window, set location in graphics.py
 
 #------------------------------------------------------------------------------
 ## Piecewise-linear examples 
@@ -39,19 +39,19 @@ zoom_on = not False        # plot a zoomed-in window, set location in graphics.p
 # args = [h_in, h_out, l_in, l_out, xw, yw]
 
 
-Example = examples.BFS_pwl
-h_in = 1
-h_out=2
-delta = 1/4
-L=16
-args = [h_in,h_out,L,delta]
+# Example = examples.BFS_pwl
+# h_in = 1
+# h_out=2
+# delta = 1/4
+# L=16
+# args = [h_in,h_out,L,delta]
 
 
 
-# Example = examples.TriCavity
-# H=4 
-# L=2
-# args = [H, L]
+Example = examples.TriCavity
+H=1
+L=1
+args = [H, L]
 
 
 #------------------------------------------------------------------------------
@@ -59,14 +59,14 @@ args = [h_in,h_out,L,delta]
 #------------------------------------------------------------------------------
 
 ## U: velocity BC {u(x,y0)=U, u(x,h(x))=0}  {v(x,y0)=0, v(x,h(x))=0} 
-U = 0
+U = 1
 
 #fixed pressure BC {p(x0,y)=-dP, p(xL,y)=0} 
 # dP = 8
 # BC = bc.Fixed(U,dP)
 
 # mixed pressure BC {dp/dx (x0,y) ~ Q, p(xL,y)=0}
-Q = 1
+Q = 0
 BC = bc.Mixed(U, Q)
 
 #------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ solver = solvers.Reynolds_Solver(Example, BC, args)
 # solution methods (plots  and returns pressure, velocity )
 
 
-N = 160
+N = 200
 # solution = solver.fd_lu_solve(N)
 
 solution = solver.pwl_solve(N)

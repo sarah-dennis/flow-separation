@@ -142,12 +142,12 @@ class Stokes_Solver:
         if uv_errs:
             title = "Iterative Grid Error in $(u,v)$ at $N_{max}=%d$"%(N_max)
             ax_labels = ["$N$", "$||(u,v)_{N^{*}} - (u,v)_{N}||_{L^p}$"]
-            graphics.plot_log_multi(uv_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='upper' )
+            graphics.plot_log_multi(uv_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='lower' )
         
        
         title = "Iterative Grid Error in $\psi$ at $N_{max}=%d$"%(N_max)
         ax_labels = ["$N$", "$||\psi _{N^{*}} - \psi_{N}||_{L^p}$"]
-        graphics.plot_log_multi(stream_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='upper' )
+        graphics.plot_log_multi(stream_errs, [N_min]+Ns, title, leg_labels, ax_labels,bigO_on=True,loc='lower' )
 
 #------------------------------------------------------------------------------
 # PLOTTING 

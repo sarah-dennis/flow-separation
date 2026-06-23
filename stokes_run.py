@@ -9,12 +9,12 @@ import stokes_control as control
 import stokes_examples as examples
 
 
-zoom_on=  False   #set zoom location in graphics.py
+zoom_on = True   #set zoom location in graphics.py
 
 #------------------------------------------------------------------------------
 
-U=1
-Q=0
+U=0
+Q=1
 
 
 # U=1
@@ -46,45 +46,42 @@ Example = examples.BFS
 
 #------------------------------------------------------------------------------
 
-hin=1
-hout=2
-L=16
-delta=1/3
+# hin=1
+# hout=2
+# L=16
+# delta=1/4
 
-args = [hin, hout, L, delta]
-Example = examples.BFS_pwl
-
-
-#------------------------------------------------------------------------------
-H = 1
-L = 1
-
-args = [H, L]# tri slope = 2H/L
-Example = examples.TriCavity
+# args = [hin, hout, L, delta]
+# Example = examples.BFS_pwl
 
 
 #------------------------------------------------------------------------------
-solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=5000)                
+# H = 1/2
+# L = 1
 
-N=320
+# args = [H, L]# tri slope = 2H/L
+# Example = examples.TriCavity
 
+#------------------------------------------------------------------------------
+solver = control.Stokes_Solver(Example, args, U, Q, Re, max_iters=50000)                
+
+N=160
 # solver.new_run(N) 
 # solver.load_run(N)
 
 # solver.load_scale(N,2*N) 
-solver.load_run(N)
+# solver.load_run(2*N)
 # solver.load_copy(N, new_Example, new_args)
 
-# solver.load_run_many(N, 2, 4)
-# 
-# solver.new_run_many(N, 2, 3)  
-# solver.load_run_new_many(N, 2,4)
+# solver.load_run_many(N, 2, 5)
 
-# solver.load_plot(N, zoom=zoom_on)
+# solver.new_run_many(N, 2, 4)  
+# solver.load_run_new_many(N, 2,2)
+
+solver.load_plot(N, zoom=zoom_on)
 
 # ------------------------------------------------------------------------------
-# solver.compare(args, U, Q, Re, 10,[20,40,80],160, p_err=True)
-# solver.compare(args, U, Q, Re, 20, [40,80,160],320, p_err= True, uv_err=True)
+solver.compare(args, U, Q, Re, 20, [40,80,160],320, p_err= False, uv_err=True)
 
 
 

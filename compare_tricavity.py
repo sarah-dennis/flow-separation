@@ -59,10 +59,10 @@ Reyn_Example = reyn_examples.TriCavity
 Stokes_Example = stokes_examples.TriCavity
 
 # H
-L = 2 
+L = 1
 # args = [H, L]
 
-Hs = [0.35, 0.5, 0.75, 1, 2, 3, 4]
+Hs = [0.25, 0.5, 0.75, 1, 1.5, 2, 3]#, 4]
 num_tests=len(Hs)
 test_args = [[H, L] for H in Hs]
 
@@ -82,7 +82,7 @@ for args in test_args:
 # Reynolds 
 #------------------------------------------------------------------------------
     reyn_solver = reyn_solvers.Reynolds_Solver(Reyn_Example, BC, args)
-    reyn_solution = reyn_solver.fd_solve(N)
+    reyn_solution = reyn_solver.pwl_solve(N)
 
     reyn_ps, reyn_us, reyn_vs = np.nan_to_num(reyn_solution.pressure.ps_2D),reyn_solution.velocity.u,reyn_solution.velocity.v
     

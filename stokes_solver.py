@@ -174,12 +174,7 @@ def update_rhs(ex, u, v, psi): #
             
             # East (i+1, j)                
             if ex.space[j,i+1] == -1: #E exterior
-                # if ex.space[j,i-1]==-1: # E-opp exterior
-                #     scale_E = ex.scale_E_Wbdry(i,j)
-                #     dpsi_bc += -8 * ex.interp(scale_E, psi[k], v_bdry= ex.flux)
-                #     u_E = ex.interp(scale_E, u[k])
-                #     v_E = ex.interp(scale_E, v[k])
-                # else:
+
                 scale_E = ex.scale_E(i,j)
                 dpsi_bc += -8 * ex.interp(scale_E, psi[k_W], v_bdry= ex.flux)
                 u_E = ex.interp(scale_E, u[k_W])
@@ -192,12 +187,7 @@ def update_rhs(ex, u, v, psi): #
         
             # West (i-1, j)          
             if ex.space[j,i-1] == -1: #W:
-                # if ex.space[j,i+1] == -1:
-                #     scale_W = ex.scale_W_Ebdry(i,j)
-                #     dpsi_bc += -8 * ex.interp(scale_W, psi[k], v_bdry= ex.flux)
-                #     u_W = ex.interp(scale_W, u[k])
-                #     v_W = ex.interp(scale_W, v[k])
-                # else:
+
                 scale_W = ex.scale_W(i,j)
                 dpsi_bc += -8 * ex.interp(scale_W, psi[k_E], v_bdry= ex.flux)
                 u_W = ex.interp(scale_W, u[k_E])
@@ -207,34 +197,22 @@ def update_rhs(ex, u, v, psi): #
                 v_W = v[k_W]
 
             if ex.space[j+1,i+1] == -1: #NE:
-                # if ex.space[j-1,i-1] == -1:
-                #     scale_NE = ex.scale_NE_SWbdry(i,j)
-                #     dpsi_bc += ex.interp(scale_NE, psi[k], v_bdry= ex.flux)
-                # else:
+
                 scale_NE = ex.scale_NE(i,j)
                 dpsi_bc += ex.interp(scale_NE, psi[k_SW], v_bdry= ex.flux)
 
             if ex.space[j+1,i-1] == -1: #NW:
-                # if ex.space[j-1,i+1] == -1:
-                #     scale_NW = ex.scale_NW_SEbdry(i,j)
-                #     dpsi_bc += ex.interp(scale_NW, psi[k], v_bdry= ex.flux)
-                # else:
+                
                 scale_NW = ex.scale_NW(i,j)
                 dpsi_bc += ex.interp(scale_NW, psi[k_SE], v_bdry= ex.flux)
                                                      
             if ex.space[j-1,i+1] == -1: #SE:
-                # if ex.space[j+1,i-1] == -1:
-                #     scale_SE = ex.scale_SE_NWbdry(i,j)
-                #     dpsi_bc += ex.interp(scale_SE, psi[k], v_bdry= ex.flux)
-                # else:
+
                 scale_SE = ex.scale_SE(i,j)
                 dpsi_bc += ex.interp(scale_SE, psi[k_NW], v_bdry= ex.flux)
 
             if ex.space[j-1,i-1] == -1: #SW:
-                # if ex.space[j+1,i+1] == -1:
-                #     scale_SW = ex.scale_SW_NEbdry(i,j)
-                #     dpsi_bc += ex.interp(scale_SW, psi[k], v_bdry= ex.flux)
-                # else:
+
                 scale_SW = ex.scale_SW(i,j)
                 dpsi_bc += ex.interp(scale_SW, psi[k_NE], v_bdry= ex.flux)
 
@@ -323,11 +301,6 @@ def uv_approx(ex, u, v, psi):
                 v_E = 0
                 psi_E = ex.flux 
             elif ex.space[j,i+1] == -1:  # exterior 
-                # if ex.space[j,i-1]==-1:
-                #     scale_E = ex.scale_E_Wbdry(i,j)
-                #     v_E = ex.interp(scale_E, v[k])
-                #     psi_E = ex.interp(scale_E, psi[k], v_bdry= ex.flux)
-                # else:
                 scale_E = ex.scale_E(i,j)
                 v_E = ex.interp(scale_E, v[k_W])
                 psi_E = ex.interp(scale_E, psi[k_W], v_bdry= ex.flux)
@@ -343,11 +316,6 @@ def uv_approx(ex, u, v, psi):
                 v_W = 0
                 psi_W = ex.flux 
             elif ex.space[j,i-1] == -1:  # exterior 
-                # if ex.space[j,i+1] == -1:
-                #     scale_W = ex.scale_W_Ebdry(i,j)
-                #     v_W = ex.interp(scale_W, v[k])
-                #     psi_W = ex.interp(scale_W, psi[k], v_bdry= ex.flux)
-                # else:
                 scale_W = ex.scale_W(i,j)
                 v_W = ex.interp(scale_W, v[k_E])
                 psi_W = ex.interp(scale_W, psi[k_E], v_bdry= ex.flux)

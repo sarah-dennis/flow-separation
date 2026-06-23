@@ -10,44 +10,36 @@ from matplotlib import pyplot as pp
 from matplotlib import colors
 from matplotlib import patches
 
-H =2
-d=1
 
 #---------ZOOM PLOT---------------------------------------------------------------
 
-# zoom to trim length ((change leny to max h))
+# zoom to trim length 
 lenx = 4
-leny = H
+leny = 2
 x_start = 6
 y_start = 0
 
 
-# # zoom for BFS corner ((change y_start to max h - leny))
+# zoom for BFS corner 
 # lenx = .5
 # leny = .5
 # x_start = 8
-# y_start = H-leny
+# y_start = 2 - leny
 
-# zoom for slope BFS corner ((change y_start to max h - leny))
-# lenx = .5
-# leny = .5
-# x_start = 8-3*d/4
-# y_start = H-leny
-
-#zoom for BFS step tip (8,1)
+# zoom for BFS step tip
 # lenx = 0.5
 # leny = 0.5
-# x_start = 8-lenx/2
-# y_start = 1-leny/2
+# x_start = 8 - lenx/2
+# y_start = 1 - leny/2
 
 # # zoom to triangle tip ((change leny to max h))
 # lenx = 1/4
 # leny = 1/4
 # x_start = 1 - lenx/2
-# y_start = H-leny
+# y_start = 2 - leny
 
 
-x_stop= x_start + lenx
+x_stop = x_start + lenx
 y_stop = y_start + leny
 
 #---------LEGEND---------------------------------------------------------------
@@ -68,7 +60,7 @@ colour_bar_pad = 0.02
 
 dpi=1200
 
-n_contours = 50#25
+n_contours = 50
 contour_width = 0.25
 
 stream_width = 1

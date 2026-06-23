@@ -5,6 +5,7 @@ Created on Wed Aug 28 11:58:25 2024
 @author: sarah
 """
 import numpy as np
+import graphics
 
 def get_dp(ex, p):
     
@@ -36,7 +37,7 @@ def pressure(ex, u, v):
     j=1 
     i=n-2 
     while i >= 0:
-        k = j*n + i
+        k = n + i
         k_E = n + i+1
         p[k] = p[k_E] - (px[k_E] + px[k])*dx/2
         i-=1
@@ -132,6 +133,6 @@ def px_py(ex, u, v):
 
             px[k] = (uxx_k + uyy_k) - (u_k*ux_k + v_k*uy_k)
             py[k] = (vxx_k + vyy_k) - (u_k*vx_k + v_k*vy_k)
-            
+  
     return px, py
 
